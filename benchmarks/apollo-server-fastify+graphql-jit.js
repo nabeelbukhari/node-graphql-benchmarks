@@ -21,5 +21,7 @@ const server = new ApolloServer({
     return cache[source].query({}, context, {});
   },
 });
-app.register(server.createHandler());
-app.listen(4001);
+server.start().then(() => {
+  app.register(server.createHandler());
+  app.listen(4001);
+});
