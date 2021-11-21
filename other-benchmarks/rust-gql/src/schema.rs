@@ -64,8 +64,6 @@ impl QueryRoot {
     }
 }
 
-// fake::faker::name::en::Name()
-
 pub type ServerSchema = Schema<QueryRoot, EmptyMutation, EmptySubscription>;
 
 pub fn new_schema() -> ServerSchema {
