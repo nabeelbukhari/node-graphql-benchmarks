@@ -9,7 +9,7 @@ const { parse } = require("graphql");
 
 const cache = {};
 
-const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
+const { createApolloSchema } = require("../../lib/schemas/createApolloSchema");
 
 const schema = createApolloSchema();
 

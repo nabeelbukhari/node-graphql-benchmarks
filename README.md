@@ -12,16 +12,16 @@ For further details, please check out [this video](https://www.youtube.com/watch
 # Usage
 
 ```
-git clone https://github.com/benawad/benchmarks
+git clone https://github.com/nabeelbukhari/node-graphql-benchmarks
 cd benchmarks
 npm install
 npm start
 ```
 
 # Benchmarks
-duration: 5s
+duration: 20s
 connections: 5
-pipelining: 1
+pipelining: 2
 
 | Server                                                                                                                                                                  | Requests/s | Latency | Throughput/Mb |
 | :--                                                                                                                                                                     | --:        | :-:     | --:           |
