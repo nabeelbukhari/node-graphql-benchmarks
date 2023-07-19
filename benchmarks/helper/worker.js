@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { compileQuery } = require("graphql-jit");
 const { parse } = require("graphql");
@@ -14,7 +14,7 @@ module.exports = async ({ query }) => {
   cache[query] = cache[query] || compileQuery(schema, parse(query));
 
   // await fetch("http://localhost:3030");
-  
+
   const result = await cache[query].query();
 
   // console.log("Returning result");

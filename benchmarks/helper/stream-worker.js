@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { compileQuery } = require("graphql-jit");
 const { parse } = require("graphql");
@@ -10,7 +10,7 @@ const schema = createApolloSchema();
 
 const cache = {};
 
-module.exports = async ({query}) => {
+module.exports = async ({ query }) => {
   let compiled = cache[query];
   if (!compiled) {
     // console.log("cache miss!");
@@ -22,4 +22,4 @@ module.exports = async ({query}) => {
   // const response = JSON.stringify(ans);
   // console.log("returning response", response);
   return JSON.stringify(ans);
-}
+};

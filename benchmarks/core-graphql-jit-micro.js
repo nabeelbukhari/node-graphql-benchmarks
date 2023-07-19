@@ -13,17 +13,18 @@ const schema = createApolloSchema();
 
 const cache = {};
 
-const server = createServer(serve(async (req, res) => {
+const server = createServer(
+  serve(async (req, res) => {
+    let query = await json(req);
 
-  let query = await json(req);
+    cache[query] = cache[query] || compileQuery(schema, parse(query.query));
 
-  cache[query] = cache[query] || compileQuery(schema, parse(query.query));
+    // await fetch("http://localhost:3030");
 
-  // await fetch("http://localhost:3030");
+    const result = await cache[query].query();
 
-  const result = await cache[query].query();
-
-  res.end(JSON.stringify(result));
-}));
+    res.end(JSON.stringify(result));
+  }),
+);
 
 server.listen(4001);

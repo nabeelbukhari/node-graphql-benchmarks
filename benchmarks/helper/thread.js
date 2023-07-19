@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { compileQuery } = require("graphql-jit");
 const { parse } = require("graphql");
@@ -24,15 +24,15 @@ const obj = {
       // console.log("cache miss!");
       cache[query] = compiledQuery = compileQuery(schema, parse(query));
     }
-  
+
     // await fetch("http://localhost:3030");
-    
+
     const result = await compiledQuery.query();
-  
+
     // console.log("Returning result");
-  
+
     return JSON.stringify(result);
-  }
+  },
 };
 
 console.log("Thread Initialized!");

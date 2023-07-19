@@ -3,8 +3,8 @@
 const fastify = require("fastify")({});
 const { spawn, Thread, Worker } = require("threads");
 const os = require("os");
-const create_rr = require('round-robin-algorithm')
-const pool = create_rr()
+const create_rr = require("round-robin-algorithm");
+const pool = create_rr();
 
 const threads = [];
 const threadsCount = os.cpus().length;
@@ -12,7 +12,7 @@ const threadsCount = os.cpus().length;
 const cache = {};
 
 // Declare a route
-fastify.post('/graphql', async (req, reply) => {
+fastify.post("/graphql", async (req, reply) => {
   const query = req.body.query;
   // const start = performance.now();
   // console.log("received response ", response);
@@ -34,7 +34,10 @@ const start = async () => {
     }
     await fastify.listen(4001);
   } catch (err) {
-    Thread.terminate(graphql);
+    console.log(err);
+    for (let i = 0; i < threadsCount; i++) {
+      Thread.terminate(pool.get());
+    }
     process.exit(1);
   }
 };
