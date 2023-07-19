@@ -1,88 +1,67 @@
 "use strict";
 
-const { parse } = require("graphql");
-const { compileQuery } = require("graphql-jit");
 const uws = require("uWebSockets.js");
-const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
-const { Worker, isMainThread, threadId } = require('worker_threads');
-const os = require('os');
-const fetch = require("node-fetch");
+const { resolve } = require('path');
+const piscina = require("piscina");
 
-const cache = {};
+const pool = new piscina({
+  filename: resolve(__dirname, './helper/stream-worker.js'),
+  idleTimeout: 10000
+});
 
-const schema = createApolloSchema();
-
-if (isMainThread) {
-  /* Main thread loops over all CPUs */
-  /* In this case we only spawn two (hardcoded) */
-  os.cpus().forEach(() => {
-    /* Spawn a new thread running this source file */
-    new Worker(__filename);
+uws
+  .App()
+  .post("/graphql", async (res) => {
+    let aborted = false;
+    await readJson(
+      res,
+      async (body) => {
+        const { query } = body;
+        const response = await pool.run({ query});
+        if (!aborted) res.cork(() => res.end(response));
+      },
+      () => {aborted=true; console.log("Aborted!")},
+    );
+  })
+  .listen(4001, () => {
+    // console.log('Listening from thread ' + threadId);
   });
 
-  /* I guess main thread joins by default? */
-} else {
-  // const cache = {};
-  uws
-    .App()
-    .post("/graphql", (res) => {
-      readJson(
-        res,
-        (body) => {
-          const { query } = body;
-          let compiled = cache[query];
-          if (!compiled) {
-            // console.log("cache miss!");
-            const document = parse(query);
-            compiled = cache[query] = compileQuery(schema, document);
+  async function readJson(res, cb, err) {
+    let buffer;
+    /* Register data cb */
+    res.onData(async (ab, isLast) => {
+      let chunk = Buffer.from(ab);
+      if (isLast) {
+        let json;
+        if (buffer) {
+          try {
+            json = JSON.parse(Buffer.concat([buffer, chunk]));
+          } catch (e) {
+            /* res.close calls onAborted */
+            res.close();
+            return;
           }
-          // fetch("http://localhost:3030").then();
-          const ans = compiled.query({}, {}, {});
-          res.end(JSON.stringify(ans));
-        },
-        () => {},
-      );
-    })
-    .listen(4001, () => {
-      // console.log('Listening from thread ' + threadId);
+          await cb(json);
+        } else {
+          try {
+            json = JSON.parse(chunk);
+          } catch (e) {
+            /* res.close calls onAborted */
+            res.close();
+            return;
+          }
+          await cb(json);
+        }
+      } else {
+        if (buffer) {
+          buffer = Buffer.concat([buffer, chunk]);
+        } else {
+          buffer = Buffer.concat([chunk]);
+        }
+      }
     });
-}
-
-function readJson(res, cb, err) {
-  let buffer;
-  /* Register data cb */
-  res.onData((ab, isLast) => {
-    let chunk = Buffer.from(ab);
-    if (isLast) {
-      let json;
-      if (buffer) {
-        try {
-          json = JSON.parse(Buffer.concat([buffer, chunk]));
-        } catch (e) {
-          /* res.close calls onAborted */
-          res.close();
-          return;
-        }
-        cb(json);
-      } else {
-        try {
-          json = JSON.parse(chunk);
-        } catch (e) {
-          /* res.close calls onAborted */
-          res.close();
-          return;
-        }
-        cb(json);
-      }
-    } else {
-      if (buffer) {
-        buffer = Buffer.concat([buffer, chunk]);
-      } else {
-        buffer = Buffer.concat([chunk]);
-      }
-    }
-  });
-
-  /* Register error cb */
-  res.onAborted(err);
-}
+  
+    /* Register error cb */
+    res.onAborted(err);
+  }
