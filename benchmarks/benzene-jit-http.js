@@ -1,12 +1,8 @@
 "use strict";
 
 const { createServer } = require("http");
-const {
-  Benzene,
-  makeHandler,
-  parseGraphQLBody,
-  makeCompileQuery,
-} = require("@benzene/http");
+const { makeCompileQuery } = require("@benzene/jit");
+const { Benzene, makeHandler, parseGraphQLBody } = require("@benzene/http");
 const sendUsage = require("./helper/message-setup");
 
 // send resource stats before server start

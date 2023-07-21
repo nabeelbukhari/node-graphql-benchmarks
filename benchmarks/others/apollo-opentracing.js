@@ -22,5 +22,7 @@ const server = new ApolloServer({
     }),
   ],
 });
-server.applyMiddleware({ app });
-app.listen(4001);
+server.start().then(() => {
+  server.applyMiddleware({ app });
+  app.listen(4001);
+});

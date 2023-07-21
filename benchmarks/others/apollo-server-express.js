@@ -9,5 +9,7 @@ const schema = createApolloSchema();
 const server = new ApolloServer({
   schema,
 });
-server.applyMiddleware({ app });
-app.listen(4001);
+server.start().then(() => {
+  server.applyMiddleware({ app });
+  app.listen(4001);
+});
