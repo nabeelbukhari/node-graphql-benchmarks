@@ -2,6 +2,10 @@
 
 const fastify = require("fastify")({});
 const { Pool, spawn, Worker } = require("threads");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const pool = Pool(() => spawn(new Worker("./helper/thread")), {
   concurrency: 4,

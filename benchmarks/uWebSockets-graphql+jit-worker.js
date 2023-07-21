@@ -3,6 +3,10 @@
 const uws = require("uWebSockets.js");
 const { resolve } = require("path");
 const piscina = require("piscina");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const pool = new piscina({
   filename: resolve(__dirname, "./helper/stream-worker.js"),

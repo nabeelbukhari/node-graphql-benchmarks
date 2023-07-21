@@ -6,6 +6,10 @@ const fastJSONStringify = require("fast-json-stringify");
 const { parse } = require("graphql");
 const { compileQuery } = require("graphql-jit");
 const turboJSONParse = require("turbo-json-parse");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 

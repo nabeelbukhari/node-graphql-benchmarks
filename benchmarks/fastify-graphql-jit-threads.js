@@ -4,6 +4,11 @@ const fastify = require("fastify")({});
 const { spawn, Thread, Worker } = require("threads");
 const os = require("os");
 const create_rr = require("round-robin-algorithm");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
+
 const pool = create_rr();
 
 const threads = [];

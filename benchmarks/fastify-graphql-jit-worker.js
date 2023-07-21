@@ -3,6 +3,10 @@
 const fastify = require("fastify")({});
 
 const { resolve } = require("path");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const concurrentTasksPerWorker = parseInt(process.argv[2] || 10);
 const idleTimeout = parseInt(process.argv[3] || 1000);

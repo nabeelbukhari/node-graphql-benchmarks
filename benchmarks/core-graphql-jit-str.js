@@ -4,6 +4,10 @@ const { createServer } = require("http");
 
 const { parse } = require("graphql");
 const { compileQuery } = require("graphql-jit");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 

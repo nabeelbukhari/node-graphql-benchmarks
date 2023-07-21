@@ -46,10 +46,17 @@ if (!choices.length) {
     : {};
   const table = new Table({
     chars: tableSeparatorChars,
-    head: ["Server", "Requests/s", "Latency", "Throughput/Mb"],
+    head: [
+      "Server",
+      "Requests/s",
+      "Latency",
+      "Throughput/Mb",
+      "Memory Usage",
+      "CPU Usage",
+    ],
   });
   if (options.commandlineMdTable) {
-    table.push([":--", "--:", ":-:", "--:"]);
+    table.push([":--", "--:", ":-:", "--:", ":--", ":--"]);
   }
 
   const dataArray = [];
@@ -81,6 +88,20 @@ if (!choices.length) {
       bold(beBold, data.requests.average.toFixed(1)),
       bold(beBold, data.latency.average.toFixed(2)),
       bold(beBold, (data.throughput.average / 1024 / 1024).toFixed(2)),
+      bold(
+        beBold,
+        `Startup: ${(data.memory.min / 1024 / 1024).toFixed(2)}, Max: ${(
+          data.memory.max /
+          1024 /
+          1024
+        ).toFixed(2)}`,
+      ),
+      bold(
+        beBold,
+        `User: ${(data.cpu.user / 1024).toFixed(2)}, System: ${(
+          data.cpu.system / 1024
+        ).toFixed(2)}`,
+      ),
     ]);
   });
 

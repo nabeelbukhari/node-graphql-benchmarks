@@ -4,6 +4,10 @@ const fastify = require("fastify")({});
 const { compileQuery } = require("graphql-jit");
 
 const { parse } = require("graphql");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const cache = {};
 
