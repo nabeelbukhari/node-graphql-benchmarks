@@ -6,9 +6,8 @@ const sendUsage = require("./helper/message-setup");
 // send resource stats before server start
 sendUsage();
 
-// assume go is on path
 const forked = exec(
-  "go run server.go",
+  "$(which go) run server.go",
   { cwd: path.join(__dirname, "..", "other-benchmarks/go-gql/") },
   (error, stdout, stderr) => {
     if (error) {
