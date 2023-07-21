@@ -90,17 +90,17 @@ if (!choices.length) {
       bold(beBold, (data.throughput.average / 1024 / 1024).toFixed(2)),
       bold(
         beBold,
-        `Startup: ${(data.memory.min / 1024 / 1024).toFixed(2)}, Max: ${(
+        `Startup: ${(data.memory.min / 1024 / 1024).toFixed(2)}MB, Max: ${(
           data.memory.max /
           1024 /
           1024
-        ).toFixed(2)}`,
+        ).toFixed(2)}MB`,
       ),
       bold(
         beBold,
-        `User: ${(data.cpu.user / 1024).toFixed(2)}, System: ${(
+        `User: ${(data.cpu.user / 1024).toFixed(2)} sec(s), System: ${(
           data.cpu.system / 1024
-        ).toFixed(2)}`,
+        ).toFixed(2)} sec(s)`,
       ),
     ]);
   });
