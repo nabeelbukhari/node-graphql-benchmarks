@@ -19,6 +19,7 @@ async fn index_playground() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    schema::generate_authors();
     let schema = schema::new_schema();
 
     println!("Playground: http://localhost:4001/graphql");
