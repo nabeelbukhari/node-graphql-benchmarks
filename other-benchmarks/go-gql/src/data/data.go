@@ -1,9 +1,39 @@
 package data
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"os"
+
 	"github.com/fibs7000/go-graphql-benchmark/graph/model"
 	"github.com/jaswdr/faker"
 )
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
+func GetData() []*model.Author {
+	// Open our jsonFile
+	jsonFile, err := os.Open("./src/data/data.json")
+	// if we os.Open returns an error then handle it
+	check(err)
+	// defer the closing of our jsonFile so that we can parse it later on
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	// we initialize our Users array
+	var authors []*model.Author
+
+	// we unmarshal our byteArray which contains our
+	// jsonFile's content into 'authors' which we defined above
+	json.Unmarshal(byteValue, &authors)
+
+	return authors
+}
 
 func GenData() []*model.Author {
 	faker := faker.New()
