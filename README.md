@@ -13,6 +13,7 @@ This is a fork of [node-graphql-benchmark](https://github.com/benawad/node-graph
 - All benchmarks that perform slower than http server are moved to others folder subfolder of benchmark folder.
 - Fixed [bug](https://github.com/nabeelbukhari/node-graphql-benchmarks/blob/127b19c31d8eeba25a66889f58d3518bf082b556/other-benchmarks/go-gql/server.go#L25) in go-graphql benchmark and it turns out to be very slow.
 - Dependencies updates
+- For metrics (cold-start) see [metrics.md](METRICS.md)
 
 # Explanation
 
