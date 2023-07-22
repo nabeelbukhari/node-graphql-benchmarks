@@ -1,6 +1,10 @@
 "use strict";
 const { exec } = require("child_process");
 const path = require("path");
+const sendUsage = require("./helper/message-setup");
+
+// send resource stats before server start
+sendUsage();
 
 const forked = exec(
   "./target/release/rust-gql",
