@@ -6,8 +6,10 @@ const sendUsage = require("./helper/message-setup");
 // send resource stats before server start
 sendUsage();
 
+// build the executable before running benchmark
+// go build -ldflags "-s -w" server.go
 const forked = exec(
-  "$(which go) run server.go",
+  "./server",
   { cwd: path.join(__dirname, "..", "other-benchmarks/go-gql/") },
   (error, stdout, stderr) => {
     if (error) {
@@ -23,3 +25,4 @@ const forked = exec(
 );
 console.log(path.join(__dirname, "..", "other-benchmarks/go-gql/server.go"));
 forked.on("exit", () => console.log("exited"));
+pid = forked.pid;

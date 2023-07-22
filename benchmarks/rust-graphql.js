@@ -6,6 +6,8 @@ const sendUsage = require("./helper/message-setup");
 // send resource stats before server start
 sendUsage();
 
+// build the executable before running benchmark
+// cargo build --release
 const forked = exec(
   "./target/release/rust-gql",
   { cwd: path.join(__dirname, "..", "other-benchmarks/rust-gql/") },
@@ -23,3 +25,4 @@ const forked = exec(
 );
 
 forked.on("exit", () => console.log("exited"));
+pid = forked.pid;

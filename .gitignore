@@ -64,3 +64,4 @@ results5
 
 # Rust
 other-benchmarks/rust-gql/target
+other-benchmarks/go-gql/server
