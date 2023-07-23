@@ -14,7 +14,7 @@ import (
 	"github.com/fibs7000/go-graphql-benchmark/src/data"
 )
 
-var authorJSON []*model.Author = data.GetData()
+var authorJSON []*model.Author = data.GenData()
 
 // Md5 is the resolver for the md5 field.
 func (r *authorResolver) Md5(ctx context.Context, obj *model.Author) (string, error) {
