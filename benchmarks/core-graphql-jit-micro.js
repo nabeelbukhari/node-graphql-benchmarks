@@ -6,12 +6,12 @@ const { parse } = require("graphql");
 const { compileQuery } = require("graphql-jit");
 const { serve, json } = require("micro");
 const fetch = require("node-fetch");
+const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
+
 const sendUsage = require("./helper/message-setup");
 
 // send resource stats before server start
 sendUsage();
-
-const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 
 const schema = createApolloSchema();
 

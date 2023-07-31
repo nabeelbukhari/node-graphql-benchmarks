@@ -7,12 +7,11 @@ const {
   parseGraphQLBody,
   makeCompileQuery,
 } = require("@benzene/http");
+const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 const sendUsage = require("./helper/message-setup");
 
 // send resource stats before server start
 sendUsage();
-
-const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 
 const rawBody = (req, done) => {
   let body = "";

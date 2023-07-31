@@ -4,14 +4,14 @@ const fastify = require("fastify")({});
 const { compileQuery } = require("graphql-jit");
 
 const { parse } = require("graphql");
+const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
+
 const sendUsage = require("./helper/message-setup");
 
 // send resource stats before server start
 sendUsage();
 
 const cache = {};
-
-const { createApolloSchema } = require("../lib/schemas/createApolloSchema");
 
 const schema = createApolloSchema();
 

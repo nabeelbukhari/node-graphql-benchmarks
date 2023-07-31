@@ -17,7 +17,6 @@ const app = Fastify();
 app.register(mercurius, {
   schema,
   resolvers,
-  jit: 1,
 });
 
 app.listen(4001);
