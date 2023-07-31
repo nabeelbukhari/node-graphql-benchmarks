@@ -9,8 +9,7 @@ sendUsage();
 // build the executable before running benchmark
 // go build -ldflags "-s -w" server.go
 const forked = exec(
-  "./server",
-  { cwd: path.join(__dirname, "..", "other-benchmarks/go-gql/") },
+  path.join(__dirname, "..", "other-benchmarks/go-gql/") + "server",
   (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
